@@ -1,0 +1,69 @@
+<apex:page controller="OpportunityController">
+
+<apex:image url="{!$Resource.logo}" />
+
+
+<!-- Navigation -->
+<apex:form>
+    <apex:selectList value="{!pageName}" size="1" id="pageSelect">
+        <apex:selectOption itemValue="myPage" itemLabel="Home" />
+        <apex:selectOption itemValue="AccountsLeads" itemLabel="Accounts/Leads" />
+        <apex:selectOption itemValue="WorkOrders" itemLabel="Work Orders" />
+        <apex:selectOption itemValue="Opportunities" itemLabel="Opportunities" />
+    </apex:selectList>
+    <apex:commandButton action="{!navigateToPage}" value="Go" />
+    <apex:commandButton action="{!getOpportunities}" value="Get Opportunities" />
+</apex:form>
+<!--  -->
+<!-- <h1>OPPORTUNITY</h1> -->
+
+<apex:form>
+    <apex:pageBlock title="Opportunity Details">
+        <apex:outputLabel value="Name: " for="Name" />
+        <apex:inputText id="Name" value="{!userInput}" />
+
+        <apex:selectList id="selectedStage" value="{!selectedStage}" multiselect="false" size="1">
+            <apex:selectOption itemValue="Select Stage" itemLabel="Select Stage"/>
+            <apex:selectOption itemValue="Prospecting" itemLabel="Prospecting"/>
+            <apex:selectOption itemValue="Qualification" itemLabel="Qualification"/>
+            <apex:selectOption itemValue="Negotiation/Review" itemLabel="Negotiation/Review"/>
+            <apex:selectOption itemValue="Closed Won" itemLabel="Closed Won"/>
+            <apex:selectOption itemValue="Closed Lost" itemLabel="Closed Lost"/>
+        </apex:selectList>
+
+        <apex:outputLabel value="Close Date" for="closeDate" />
+        <input value="{!closeDate}" type="date"/>
+
+        <apex:commandButton action="{!createOpportunity}" value="Save" />
+    </apex:pageBlock>
+</apex:form>
+
+    <apex:form>
+        <h3>Opportunity List:</h3>
+        <apex:dataTable value="{!oppList}" var="o" border="1">
+            <apex:column>
+                <apex:facet name="header">Name</apex:facet>
+                <apex:outputText value="{!o.Name}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Close Date</apex:facet>
+                <apex:outputText value="{0, date, MMMM d','  yyyy}" >
+                    <apex:param value="{!o.closeDate}" />
+                </apex:outputText>
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Stage</apex:facet>
+                <apex:outputText value="{!o.StageName}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Action</apex:facet>
+                <apex:commandLink value="Delete" action="{!deleteOpportunity}">
+                    <apex:param name="recId" value="{!o.Id}" assignTo="{!recId}" />
+                </apex:commandLink>
+            </apex:column>
+        </apex:dataTable>
+    </apex:form> 
+    
+    <apex:pageMessages />
+
+</apex:page>

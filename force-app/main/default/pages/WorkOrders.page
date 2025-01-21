@@ -1,0 +1,68 @@
+<apex:page controller="WorkOrderController">
+<apex:image url="{!$Resource.logo}" />
+
+
+
+<!-- Navigation -->
+<apex:form>
+    <apex:selectList value="{!pageName}" size="1" id="pageSelect">
+        <apex:selectOption itemValue="myPage" itemLabel="Home" />
+        <apex:selectOption itemValue="AccountsLeads" itemLabel="Accounts/Leads" />
+        <apex:selectOption itemValue="WorkOrders" itemLabel="Work Orders" />
+        <apex:selectOption itemValue="Opportunities" itemLabel="Opportunities" />
+    </apex:selectList>
+    <apex:commandButton action="{!navigateToPage}" value="Go" />
+    <apex:commandButton action="{!getWorkOrders}" value="Get Work Orders" />
+</apex:form>
+<!--  -->
+<!-- <h1>Work ORDERS</h1> -->
+
+<apex:form>
+    <apex:pageBlock title="Select Technician for your Work Order:">
+        <apex:pageBlockSection>
+            <apex:outputLabel value="subject: " for="subject" />
+            <apex:inputText id="subject" value="{!subject}" />
+        </apex:pageBlockSection>
+        <apex:pageBlockSection>
+            <apex:outputLabel value="description: " for="description" />
+            <apex:inputText id="description" value="{!description}" />
+        </apex:pageBlockSection>
+        <apex:pageBlockSection>
+            <apex:outputLabel value="Select Technician: " for="selectedTechnician" />
+            <apex:selectList value="{!selectedTechnician}" multiselect="false" size="1">
+                <apex:selectOption itemValue="" itemLabel="None" />
+                <apex:selectOptions value="{!TechnicianOptions}" />
+            </apex:selectList>
+        </apex:pageBlockSection>
+        <apex:commandButton action="{!createWorkOrder}" value="Save" />
+    </apex:pageBlock>
+</apex:form>
+
+
+    <apex:form>
+        <h3>Work Order List:</h3>
+        <apex:dataTable value="{!workOrderList}" var="w" border="1">
+            <apex:column>
+                <apex:facet name="header">Name</apex:facet>
+                <apex:outputText value="{!w.technicians__c}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">subject</apex:facet>
+                <apex:outputText value="{!w.subject}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">description</apex:facet>
+                <apex:outputText value="{!w.description}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Action</apex:facet>
+                <apex:commandLink value="Delete" action="{!deleteWorkOrder}">
+                    <apex:param name="recId" value="{!w.Id}" assignTo="{!recId}" />
+                </apex:commandLink>
+            </apex:column>
+        </apex:dataTable>
+    </apex:form>
+    
+    <apex:pageMessages />
+
+</apex:page>

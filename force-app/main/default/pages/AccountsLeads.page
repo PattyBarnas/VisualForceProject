@@ -1,0 +1,110 @@
+<apex:page controller="AccountsLeadsController" tabStyle="Account">
+    <apex:image url="{!$Resource.logo}" />
+    <!-- NAVIGATION BAR -->
+    <apex:form>
+        <apex:selectList value="{!pageName}" size="1" id="pageSelect">
+            <apex:selectOption itemValue="myPage" itemLabel="Home" />
+            <apex:selectOption itemValue="WorkOrders" itemLabel="Work Orders" />
+            <apex:selectOption itemValue="Opportunities" itemLabel="Opportunities" />
+        </apex:selectList>
+        <apex:commandButton action="{!navigateToPage}" value="Go" />
+    </apex:form>
+
+    
+    <apex:form>
+        <h3>Account List:</h3>
+        <apex:dataTable value="{!accList}" var="a" border="1">
+            <apex:column>
+                <apex:facet name="header">Last Name</apex:facet>
+                <apex:outputText value="{!a.Name}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Action</apex:facet>
+                <apex:commandLink value="Delete" action="{!deleteAccount}">
+                    <apex:param name="accId" value="{!a.Id}" assignTo="{!recId}" />
+                </apex:commandLink>
+            </apex:column>
+        </apex:dataTable>
+    </apex:form> 
+        <!-- <apex:commandLink action="{!goToHome}" value="Home" />
+        <apex:commandLink action="{!goToOrders}" value="Orders" />
+        <apex:commandLink action="{!goToAccsLeads}" value="Accounts/Leads" /> -->
+        <!-- <apex:commandLink action="{!goToWorkOrder}" value="Work Orders" /> -->
+        <!-- <apex:commandLink action="{!goToOpportunities}" value="Opportunities" /> -->
+        
+    <!-- CREATE ACCOUNT-->
+
+    <!-- <div class="form-container"> -->
+
+        <apex:form>
+            <h3>Create an Account:</h3>
+            <apex:outputLabel value="Enter Last Name: " for="lastNameInput" />
+            <apex:inputText id="lastNameInput" value="{!userInput}" />
+            <apex:commandButton action="{!createAccount}" value="Save" />
+            <apex:commandButton action="{!getAccs}" value="Get Accounts" />
+        </apex:form>
+        
+        <!-- CREATE LEAD -->
+        <apex:form>
+            <h3>Create a Lead:</h3>
+            <apex:outputLabel value="Enter Last Name: " for="lastNameInput" />
+            <apex:inputText id="lastNameInput" value="{!userInput}" />
+            <apex:outputLabel value="Enter Company: " for="companyInput" />
+            <apex:inputText id="companyInput" value="{!companyInput}" />
+            <apex:commandButton action="{!createLeads}" value="Save" />
+            <apex:commandButton action="{!getLeads}" value="Get Leads" /> 
+         </apex:form> 
+    <!-- </div> -->
+
+    <!-- list of Contacts -->
+
+<!-- <div class="table-list">  -->
+ 
+    
+    <!-- List of Techs -->
+     <apex:form>
+        <h3>Lead List:</h3>
+        <apex:dataTable value="{!leadList}" var="l" border="1">
+            <apex:column>
+                <apex:facet name="header">Name</apex:facet>
+                <apex:outputText value="{!l.Name}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Company</apex:facet>
+                <apex:outputText value="{!l.Company}" />
+            </apex:column>
+            <apex:column>
+                <apex:facet name="header">Action</apex:facet>
+                <apex:commandLink value="Delete" action="{!deleteLead}">
+                <apex:param name="leadId" value="{!l.Id}" assignTo="{!recId}" /> 
+                </apex:commandLink>
+            </apex:column>
+        </apex:dataTable>
+    </apex:form>  
+<!-- </div>  -->
+    <!-- Display success or error messages -->
+    <apex:pageMessages />
+
+    <style>
+      
+        .form-container{
+            display: flex;
+            gap: 1.4rem;
+            justify-content: space-between;
+            padding: 1.2rem
+
+        }
+        form{
+            display: flex;
+            font-size: 1rem;
+            
+        }
+        .table-list{
+            display: flex;
+            gap: 1.5rem;
+            height: 100%;
+            
+        }
+       
+    </style>
+</apex:page>
